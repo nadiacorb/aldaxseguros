@@ -1,0 +1,301 @@
+/*
+#ffffff - Background (alternativa 1A1A1B)
+#365B6D - background 2do
+#DFD8D8 - destacados
+#DFD8D8 - textos
+*/
+
+
+body{
+	font-family: 'Libre Franklin', sans-serif;
+	padding-top: 10px;
+	margin: 25px 0px;
+	background-image: linear-gradient(to bottom, #365B6D, #DFD8D8);
+}
+
+header {
+margin: 0px 25px;
+}
+
+main {
+	margin: 0px 25px;
+}
+
+h1, h2, h3, h4 {
+	font-family: 'Roboto', sans-serif;
+	color: #ffffff;
+    margin-bottom: 25px;
+}
+
+li {
+    list-style-type: none;
+    color: #EEEEEE;
+}
+
+h1 {
+    font-size: 28px !important;
+    text-align: center;
+}
+
+
+h2 {
+    font-size: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+
+p{
+	color: #EEEEEE;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+nav a{
+	color: #E2DFF2;
+}
+
+button {
+	padding: 3px 15px;
+	border: solid 3px #365B6D;
+	font-weight: 600;
+	color: #ffffff;
+	border-radius: 15px;
+	background-color: #365B6D;
+	margin-top: 20px !important;
+	width: 200px;
+}
+
+section {
+	margin-top: 35px;
+}
+
+/*Estructura general*/
+
+.grid-container{
+	display: grid;
+	grid-template-areas:
+	"header"
+	"main"
+	"main"
+	"main"
+	"main"
+	"main"
+	"footer";
+	grid-template-rows: repeat(auto-fill, 1fr);
+}
+
+.grid-header{
+	grid-area: header;
+}
+
+.grid-main{
+	grid-area: main;
+}
+
+.grid-footer{
+	grid-area: footer;
+}
+
+
+/*body*/
+
+.formulario {
+	background-color: #ffffff;
+	border-radius: 10px;
+	padding: 25px;
+}
+
+.formulario h2, p, label {
+	color: #848181;
+}
+
+.formulario p {
+	color: #848181;
+}
+
+.form__item {
+	display: flex;
+	flex-direction: column;
+}
+
+.opciones {
+	display: inline-flex;
+}
+
+.opciones label {
+	margin-right: 35px;
+}
+
+.opcionesgral {
+	display: flex;
+	flex-direction: column;
+}
+
+.opcionesgral input {
+	width: 50px;
+}
+
+.corto input {
+	width: 150px;
+}
+
+input {
+	border: none;
+	border-bottom: 1px solid black;
+	width: 250px;
+}
+
+input:focus {
+    outline: none;
+}
+
+.form__item {
+	margin-top: 15px;
+}
+
+.conimagen {
+	display: flex;
+	justify-content: flex-start;
+    flex-direction: row-reverse;
+}
+
+.conimagen img {
+	width: 280px;
+}
+
+.sectionform {
+	margin-top: 0px;
+}
+
+.marcas-container{
+	display: flex;
+	flex-wrap: wrap;
+    align-content: stretch;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.marcas-container img {
+	margin-top: 20px;
+	width: 120px;
+}
+
+.federacion {
+	width: 210px !important;
+}
+
+.aldaxpresentacion {
+	margin-bottom: -75px;
+}
+
+
+.datos-contacto {
+	margin-top: 10px;
+	margin-bottom: 25px;
+}
+
+.datos-contacto h2, p {
+color: #ffffff;
+text-align: center;
+}
+
+.datos-contacto p{
+margin-bottom: 5px;
+}
+
+footer {
+	margin-top: 25px;
+	width: 100%;
+	background-color: #365B6D;
+}
+
+.error-message {
+        color: red;
+        font-size: 12px;
+        margin-top: 3px;
+    }
+
+
+/*******************************************************************************************/
+/********************* PANTALLAS 481x1015 px (TABLETS) *************************************/
+/*-----------------------------------------------------------------------------------------*/
+
+@media only screen and (min-width: 481px) and (max-width: 1015px) {
+
+
+h1 {
+    font-size: 35px !important;
+}
+
+
+h2 {
+    font-size: 25px !important;
+}
+
+
+p , label, li{
+    font-size: 22px;
+}
+
+input {
+	margin-bottom: 15px !important;
+}
+
+
+.marcas-container img{
+	margin: 15px 20px;
+}
+
+.conimagen img {
+	width: 400px;
+}
+
+
+button {
+	width: 250px;
+	font-size: 20px !important;
+}
+
+}
+
+/*******************************************************************************************/
+/********************* PANTALLAS 1016 px EN ADELANTE (ESCRITORIO) ************************/
+/*-----------------------------------------------------------------------------------------*/
+
+@media only screen and (min-width: 1016px){
+
+h1 {
+    font-size: 40px !important;
+}
+
+
+h2 {
+    font-size: 28px !important;
+}
+
+li {
+    font-size: 22px !important;
+}
+
+
+	.cuerpo {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+	}
+
+	.conimagen img {
+	width: 450px;
+}
+
+.formulario {
+	width: 90%;
+}
+
+.cajaizquierda {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+}
