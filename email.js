@@ -1,65 +1,52 @@
-const nodemailer = require('nodemailer');
+const AWS = require('aws-sdk');
+const bodyParser = require('body-parser');
 
-// Configura el transporte SMTP de Nodemailer para Gmail
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+// Configura AWS SES
+const ses = new AWS.SES({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: 'us-east-1', // Cambia esto por la región de tu cuenta SES
+});
+
+// Configura el analizador de cuerpo para procesar datos de formulario
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Ruta de manejo de envío de formulario
+app.post('/enviar-correo', (req, res) => {
+  // Extrae los datos del formulario
+ const { marca, version, anio, codigoPostal, nombreCompleto, whatsapp, email } = req.body;
+  const gas = req.body.gas === 'si' ? 'Sí' : 'No'; // Convierte el valor del botón de radio en texto legible
+
+
+  // Configura el contenido del correo electrónico
+  const params = {
+    Destination: {
+      ToAddresses: ['aldaxseguros@gmail.com'], // Cambia esto al destinatario deseado
+    },
+    Message: {
+      Body: {
+        Text: {
+          Data: `Marca: ${marca}\nVersión: ${version}\nAño: ${anio}\nCódigo Postal: ${codigoPostal}\nVehículo a gas: ${gas}\nNombre completo: ${nombreCompleto}\nWhatsApp: ${whatsapp}\nEmail: ${email}`,
+        },
+      },
+      Subject: { Data: 'Solicitud de cotización - Seguro Automotor' },
+    },
+    Source: 'aldaxseguros@gmail.com', // Debe estar verificado en SES
+  };
+
+  // Envía el correo electrónico
+  ses.sendEmail(params, (err, data) => {
+    if (err) {
+      console.error('Error al enviar el correo electrónico:', err);
+      res.status(500).send('Error al enviar el correo electrónico');
+    } else {
+      console.log('Correo electrónico enviado con éxito:', data);
+      res.send('Correo electrónico enviado con éxito');
     }
+  });
 });
 
-
-// Función para enviar el correo electrónico con los datos del formulario
-function enviarCorreoElectronico(infoFormulario) {
-    // Define el contenido del correo electrónico
-    const correoElectronico = {
-        from: 'aldaxseguros@gmail.com',
-        to: 'aldaxseguros@gmail.com', // Cambia esto con tu dirección de correo electrónico
-        subject: 'Formulario de Cotización - Seguro de auto',
-        html: `
-            <h2>Información del formulario:</h2>
-            <p><strong>Marca del vehículo:</strong> ${infoFormulario.marca}</p>
-            <p><strong>Versión:</strong> ${infoFormulario.version}</p>
-            <p><strong>Año del vehículo:</strong> ${infoFormulario.anio}</p>
-            <p><strong>Código postal:</strong> ${infoFormulario.codigoPostal}</p>
-            <p><strong>¿Su vehículo es a gas?</strong> ${infoFormulario.gas}</p>
-            <p><strong>Nombre completo:</strong> ${infoFormulario.nombreCompleto}</p>
-            <p><strong>Whatsapp:</strong> ${infoFormulario.whatsapp}</p>
-            <p><strong>Email:</strong> ${infoFormulario.email}</p>
-        `
-    };
-
-    // Envía el correo electrónico
-    transporter.sendMail(correoElectronico, function(error, info) {
-        if (error) {
-            console.error('Error al enviar el correo electrónico:', error);
-        } else {
-            console.log('Correo electrónico enviado:', info.response);
-        }
-    });
-}
-
-// Agrega un evento de escucha para el envío del formulario
-const formulario = document.getElementById('formulario');
-formulario.addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    // Captura los valores del formulario
-    const infoFormulario = {
-        marca: document.getElementById('marca').value,
-        version: document.getElementById('version').value,
-        anio: document.getElementById('anio').value,
-        codigoPostal: document.getElementById('codigoPostal').value,
-        gas: document.querySelector('input[name="gas"]:checked').value,
-        nombreCompleto: document.getElementById('nombreCompleto').value,
-        whatsapp: document.getElementById('whatsapp').value,
-        email: document.getElementById('email').value
-    };
-
-    // Envía el correo electrónico con la información del formulario
-    enviarCorreoElectronico(infoFormulario);
+// Inicia el servidor
+app.listen(3000, () => {
+  console.log('Servidor iniciado en el puerto 3000');
 });
-
